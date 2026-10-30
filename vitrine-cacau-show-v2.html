@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cacau Show – Vitrine</title>
+
+<!-- Fontes bonitas do Google (se estiver sem internet, usa Georgia/Arial automaticamente) -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ===== CORES DA PLACA (pode trocar os códigos # se quiser) ===== */
+:root{
+  --marrom:#7a3b1d;   /* fundo da página */
+  --escuro:#4a2312;   /* topo e rodapé */
+  --card:#8f4a2a;     /* fundo de cada produto */
+  --laranja:#ff7a35;  /* destaques e fundo do círculo da foto */
+  --ouro:#ffc23c;     /* título e preços */
+  --creme:#fff4e6;    /* texto claro */
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--marrom);color:var(--creme);
+     font-family:'Poppins',Arial,sans-serif;min-height:100vh}
+
+/* ===== TOPO ===== */
+header{text-align:center;padding:28px 16px 20px;background:var(--escuro)}
+header h1{margin:0;font-family:'Playfair Display',Georgia,serif;
+          font-size:clamp(26px,5vw,56px);color:var(--ouro)}
+header p{margin:6px 0 0;color:var(--laranja);font-weight:600;font-size:clamp(14px,2vw,22px)}
+
+/* ===== LISTA DE PRODUTOS (as colunas se ajustam sozinhas ao tamanho da tela) ===== */
+main{max-width:1200px;margin:0 auto;padding:24px 16px}
+.grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.item{display:flex;align-items:center;gap:14px;background:var(--card);
+      border-radius:18px;padding:14px;border:2px solid rgba(255,255,255,.08)}
+
+/* Círculo da foto: mude 90px para deixar maior ou menor */
+.foto{flex:none;width:90px;height:90px;border-radius:50%;background:var(--laranja);
+      border:3px solid var(--escuro);display:grid;place-items:center;font-size:40px;overflow:hidden}
+.foto img{width:100%;height:100%;object-fit:cover}  /* cover = preenche o círculo */
+
+.nome{font-weight:700;font-size:clamp(17px,2vw,21px);line-height:1.2}
+.preco{margin-top:4px;font-size:clamp(18px,2.2vw,24px);font-weight:700;color:var(--ouro)}
+.preco small{display:block;font-size:14px;color:var(--creme);font-weight:500}
+.consulte{font-size:15px;font-weight:600;opacity:.8}
+
+/* ===== RODAPÉ (Pix + contato) ===== */
+footer{display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:center;
+       padding:28px 16px 40px;background:var(--escuro);text-align:center}
+.pix{display:flex;flex-direction:column;align-items:center;gap:8px}
+.qr{width:150px;height:150px;border-radius:12px;background:#fff;color:var(--escuro);
+    display:grid;place-items:center;font-size:13px;font-weight:600;padding:8px;overflow:hidden}
+.qr img{width:100%;height:100%;object-fit:contain}
+.contato strong{display:block;color:var(--laranja);font-size:clamp(18px,2.4vw,26px);margin-bottom:6px}
+.contato span{font-size:clamp(18px,2.2vw,24px);font-weight:700}
+</style>
+</head>
+
+<body>
+<!-- Estrutura da página: os textos são preenchidos pelo script lá embaixo -->
+<header>
+  <h1 id="titulo"></h1>
+  <p id="subtitulo"></p>
+</header>
+
+<main><div class="grade" id="grade"></div></main>
+
+<footer>
+  <div class="pix">
+    <div class="qr" id="qr"></div>
+    <b>Pague com o Pix!</b>
+  </div>
+  <div class="contato">
+    <strong id="chamada"></strong>
+    <span id="telefone"></span>
+  </div>
+</footer>
+
+<script>
+/* =====================================================================
+   ÁREA DE EDIÇÃO – só mexa daqui até a linha "FIM DA ÁREA DE EDIÇÃO"
+   ===================================================================== */
+
+/* ---------- 1) TEXTOS GERAIS ---------- */
+const CONFIG = {
+  titulo:   "Com preços tão baratos, faça um show!",
+  subtitulo:"Sua viagem mais doce do que nunca",
+  chamada:  "Seu motorista favorito agora é um revendedor Cacau Show!",
+  telefone: "chave pix: +55 62 99215-5494",
+
+  // Imagem do QR Code do Pix. Salve na pasta "fotos" e escreva o nome aqui.
+  // Exemplo: "fotos/qr-pix.png". Deixe "" (vazio) para mostrar um quadro em branco.
+  qrPix: ""
+};
+
+/* ---------- 2) PRODUTOS ----------
+   COMO ESCOLHER A FOTO DE UM PRODUTO:
+   a) Crie uma pasta chamada "fotos" ao lado deste arquivo.
+   b) Coloque lá a imagem do produto (png, jpg, jpeg, webp, gif ou svg).
+   c) Na linha do produto, escreva  foto: "fotos/nome-da-imagem.png"
+   Se você não colocar foto (ou a imagem não for encontrada), aparece o emoji.
+
+   CADA PRODUTO TEM:
+     nome  – nome que aparece na tela
+     preco – só o número, com vírgula (ex: "5,50"). Vazio ("") mostra "Consulte o preço"
+     obs   – (opcional) linha extra pequena embaixo do preço
+     foto  – (opcional) caminho da imagem, ex: "fotos/tablete20g.png"
+     emoji – (opcional) desenho que aparece se não houver foto
+
+   PARA ADICIONAR: copie uma linha inteira (com a vírgula no final) e altere.
+   PARA REMOVER:   apague a linha do produto.
+   PARA REORDENAR: mude as linhas de lugar (aparecem na mesma ordem daqui).
+   Atenção: toda linha termina com vírgula, menos a última.
+*/
+const PRODUTOS = [
+  { nome: "Tablete 20g",  preco: "5,50",  obs: "Picante, Meio amargo 55%, Ao leite, laranja, Castanha de caju, Mezzo, Genduia, branco, crocante", 
+  foto: "fotos_cacau_show/tablete20g.png", emoji: "🍫" },
+
+  { nome: "Tablete 100g",  preco: "22,00", obs: "Ao leite, Mezzo, Genduia, branco", 
+  foto: "fotos_cacau_show/tablete100g.webp", emoji: "🍫" },
+
+  { nome: "Tablete 100g\n(Do Intense, Pistache)",  preco: "24,50", 
+  foto: "fotos_cacau_show/tablete100g.webp", emoji: "🍫" },
+  
+  { nome: "Trufa 13,5g",  preco: "4,00",  obs: "Ao leite, branco, mezzo, pistache, meio amargo 70%, genduia", 
+  foto: "fotos_cacau_show/trufa13g.png", emoji: "🍬" },
+ 
+  { nome: "Trufa 30g",  preco: "6,50",  obs: "tradicional, branco, mezzo, paçoca, meio amargo(55%), pistache, morango, maracuja, torta de limão", 
+  foto: "fotos_cacau_show/trufa30g.png", emoji: "🍬" },
+
+  { nome: "Trufa 30g artesanal",  preco: "7,00",  obs: "limão e frutas vermelhas, petit gateau, licor de cereija", 
+  foto: "fotos_cacau_show/trufa30g.png", emoji: "🍬" },
+  
+  { nome: "Biscoito 100g",  preco: "20,00", obs: "Tradicional c/ chocolate, canela \nHarry Potter", 
+  foto: "fotos_cacau_show/biscoito100g.png", emoji: "🍪" },
+  
+  { nome: "Bytes 100g",  preco: "20,00", obs: "Amendoim, uva, ao leite crocante, branco, ao leite e branco, 3 chocolates", 
+  foto: "fotos_cacau_show/bytes100g.png", emoji: "🍩" },
+  
+  { nome: "Bombons petit deli 80g",  preco: "21,00", obs: "brownie, pistache", 
+  foto: "fotos_cacau_show/bombons_petit_deli80g.webp", emoji: "🍫" },
+  
+  { nome: "Esfera de Chocolate + miniatura Harry Potter 47g", obs: "possiveis miniaturas: Harry Potter, Hermione, Ron, Hagrid, partes de cenarios", preco: "22,00", 
+  foto: "fotos_cacau_show/caixa_harry_potter47g.webp", emoji: "⚡" },
+  
+  { nome: "Pão de mel 50g",  preco: "12,00",
+  foto: "fotos_cacau_show/pao_de_mel50g.webp", emoji: "🧁" },
+ 
+  { nome: "Tablete Miau 70g",  preco: "20,00",  obs: "chocolate ao leite c/ recheio de leite, chocolate ao leite, mezzo", 
+  foto: "fotos_cacau_show/tablete_miau70g.webp", emoji: "🐱" },
+ 
+  { nome: "Tablete Dreams 130g",  preco: "26,50",  obs: "morango, maracuja, cookies cream, mil folhas, mil folhas avelã,\nspeeculous: ao leite e branco c/ recheio speeculous", 
+  foto: "fotos_cacau_show/tablete_dreams130g.webp", emoji: "🍰" }
+];
+
+/* =====================================================================
+   FIM DA ÁREA DE EDIÇÃO – daqui para baixo é o "motor" da página.
+   Não precisa mexer.
+   ===================================================================== */
+
+// Atalho para achar um elemento da página pelo id
+const $ = id => document.getElementById(id);
+
+// Atalho para criar um elemento (div, img...) com classe e texto
+function criar(tag, classe, texto){
+  const e = document.createElement(tag);
+  if (classe) e.className = classe;
+  if (texto)  e.textContent = texto;
+  return e;
+}
+
+// Cria uma <img>; se a imagem não existir, chama "aoFalhar" (para mostrar o emoji)
+function criarImagem(caminho, alt, aoFalhar){
+  const img = criar("img");
+  img.src = caminho;
+  img.alt = alt;
+  img.onerror = () => { img.remove(); if (aoFalhar) aoFalhar(); };
+  return img;
+}
+
+// ---- Preenche os textos gerais ----
+$("titulo").textContent    = CONFIG.titulo;
+$("subtitulo").textContent = CONFIG.subtitulo;
+$("chamada").textContent   = CONFIG.chamada;
+$("telefone").textContent  = CONFIG.telefone;
+
+// ---- QR Code do Pix ----
+if (CONFIG.qrPix) {
+  $("qr").appendChild(criarImagem(CONFIG.qrPix, "QR Code Pix",
+    () => { $("qr").textContent = "QR Code Pix"; }));
+} else {
+  $("qr").textContent = "QR Code Pix";
+}
+
+// ---- Monta um cartão para cada produto da lista ----
+PRODUTOS.forEach(p => {
+  const cartao = criar("div", "item");
+
+  // Círculo da foto: mostra a imagem; se não tiver (ou falhar), mostra o emoji
+  const circulo = criar("div", "foto");
+  const mostrarEmoji = () => { circulo.textContent = p.emoji || "🍫"; };
+  if (p.foto) circulo.appendChild(criarImagem(p.foto, p.nome, mostrarEmoji));
+  else mostrarEmoji();
+
+  // Nome + preço
+  const texto = criar("div");
+  texto.appendChild(criar("div", "nome", p.nome));
+  if (p.preco) {
+    const preco = criar("div", "preco", "R$ " + p.preco);
+    if (p.obs) preco.appendChild(criar("small", "", p.obs));
+    texto.appendChild(preco);
+  } else {
+    texto.appendChild(criar("div", "consulte", "Consulte o preço"));
+  }
+
+  cartao.append(circulo, texto);
+  $("grade").appendChild(cartao);
+});
+</script>
+</body>
+</html>
