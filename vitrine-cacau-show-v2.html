@@ -17,42 +17,52 @@
   --laranja:#ff7a35;  /* destaques e fundo do círculo da foto */
   --ouro:#ffc23c;     /* título e preços */
   --creme:#fff4e6;    /* texto claro */
+  --faixa:rgba(74,35,18,.92); /* topo e rodapé */
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--marrom);color:var(--creme);
-     font-family:'Poppins',Arial,sans-serif;min-height:100vh}
+
+/* TAMANHO AUTOMÁTICO: tudo abaixo é medido em "rem", e o rem cresce com a largura
+   da tela. Assim a página ocupa a tela inteira e fica legível em celular, monitor ou TV.
+   Para deixar TUDO maior ou menor, mude o 1.1vw (ex: 1.3vw = maior, 0.9vw = menor). */
+html{font-size:clamp(12px,1.1vw,40px)}
+
+/* Fundo padrão: chocolate com um brilho suave (a imagem do CONFIG, se houver, substitui isto) */
+body{margin:0;color:var(--creme);font-family:'Poppins',Arial,sans-serif;min-height:100vh;
+     background:radial-gradient(ellipse at 50% 0%,#a0522d 0%,var(--marrom) 45%,#5a2a14 100%) fixed;
+     background-size:cover}
 
 /* ===== TOPO ===== */
-header{text-align:center;padding:28px 16px 20px;background:var(--escuro)}
-header h1{margin:0;font-family:'Playfair Display',Georgia,serif;
-          font-size:clamp(26px,5vw,56px);color:var(--ouro)}
-header p{margin:6px 0 0;color:var(--laranja);font-weight:600;font-size:clamp(14px,2vw,22px)}
+header{text-align:center;padding:1.6rem 1rem 1.2rem;background:var(--faixa)}
+header h1{margin:0;font-family:'Playfair Display',Georgia,serif;font-size:3.2rem;line-height:1.15;color:var(--ouro)}
+header p{margin:.4rem 0 0;color:var(--laranja);font-weight:600;font-size:1.4rem}
 
-/* ===== LISTA DE PRODUTOS (as colunas se ajustam sozinhas ao tamanho da tela) ===== */
-main{max-width:1200px;margin:0 auto;padding:24px 16px}
-.grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-.item{display:flex;align-items:center;gap:14px;background:var(--card);
-      border-radius:18px;padding:14px;border:2px solid rgba(255,255,255,.08)}
+/* ===== LISTA DE PRODUTOS (ocupa a largura toda; colunas se ajustam sozinhas) ===== */
+main{width:100%;padding:1.6rem 2vw}
+.grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(22rem,1fr));gap:1.2rem}
+.item{display:flex;align-items:center;gap:1.1rem;background:var(--card);
+      border-radius:1.4rem;padding:1.1rem;border:2px solid rgba(255,255,255,.1);
+      box-shadow:0 .3rem .8rem rgba(0,0,0,.25)}
 
-/* Círculo da foto: mude 90px para deixar maior ou menor */
-.foto{flex:none;width:90px;height:90px;border-radius:50%;background:var(--laranja);
-      border:3px solid var(--escuro);display:grid;place-items:center;font-size:40px;overflow:hidden}
+/* Círculo da foto: mude 7rem para deixar maior ou menor */
+.foto{flex:none;width:7rem;height:7rem;border-radius:50%;background:var(--laranja);
+      border:.2rem solid var(--escuro);display:grid;place-items:center;font-size:3rem;overflow:hidden}
 .foto img{width:100%;height:100%;object-fit:cover}  /* cover = preenche o círculo */
 
-.nome{font-weight:700;font-size:clamp(17px,2vw,21px);line-height:1.2}
-.preco{margin-top:4px;font-size:clamp(18px,2.2vw,24px);font-weight:700;color:var(--ouro)}
-.preco small{display:block;font-size:14px;color:var(--creme);font-weight:500}
-.consulte{font-size:15px;font-weight:600;opacity:.8}
+.nome{font-weight:700;font-size:1.45rem;line-height:1.2;white-space:pre-line}
+.preco{margin-top:.3rem;font-size:1.8rem;font-weight:700;color:var(--ouro)}
+/* pre-line: o "\n" vira quebra de linha */
+.preco small{display:block;margin-top:.2rem;font-size:1rem;line-height:1.3;color:var(--creme);font-weight:500;white-space:pre-line}
+.consulte{font-size:1.1rem;font-weight:600;opacity:.8}
 
 /* ===== RODAPÉ (Pix + contato) ===== */
-footer{display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:center;
-       padding:28px 16px 40px;background:var(--escuro);text-align:center}
-.pix{display:flex;flex-direction:column;align-items:center;gap:8px}
-.qr{width:150px;height:150px;border-radius:12px;background:#fff;color:var(--escuro);
-    display:grid;place-items:center;font-size:13px;font-weight:600;padding:8px;overflow:hidden}
+footer{display:flex;flex-wrap:wrap;gap:2rem;align-items:center;justify-content:center;
+       padding:1.6rem 1rem 2rem;background:var(--faixa);text-align:center}
+.pix{display:flex;flex-direction:column;align-items:center;gap:.5rem;font-size:1.1rem}
+.qr{width:11rem;height:11rem;border-radius:.8rem;background:#fff;color:var(--escuro);
+    display:grid;place-items:center;font-size:1rem;font-weight:600;padding:.5rem;overflow:hidden}
 .qr img{width:100%;height:100%;object-fit:contain}
-.contato strong{display:block;color:var(--laranja);font-size:clamp(18px,2.4vw,26px);margin-bottom:6px}
-.contato span{font-size:clamp(18px,2.2vw,24px);font-weight:700}
+.contato strong{display:block;color:var(--laranja);font-size:1.8rem;margin-bottom:.4rem}
+.contato span{font-size:1.7rem;font-weight:700}
 </style>
 </head>
 
@@ -88,24 +98,48 @@ const CONFIG = {
   chamada:  "Seu motorista favorito agora é um revendedor Cacau Show!",
   telefone: "chave pix: +55 62 99215-5494",
 
-  // Imagem do QR Code do Pix. Salve na pasta "fotos" e escreva o nome aqui.
-  // Exemplo: "fotos/qr-pix.png". Deixe "" (vazio) para mostrar um quadro em branco.
-  qrPix: ""
+  // Imagem do QR Code do Pix. Salve na pasta "fotos_cacau_show" e escreva o nome aqui.
+  // Exemplo: "fotos_cacau_show/qr-pix.png". Deixe "" (vazio) para mostrar um quadro em branco.
+  qrPix: "",
+
+  // ---------- FUNDO DA PÁGINA ----------
+  // Imagem de fundo: salve na pasta "fotos_cacau_show" e escreva o nome aqui.
+  // Deixe "" (vazio) para usar o fundo chocolate liso.
+  fundo: "fotos_cacau_show/fundo_muitos_doces.jpg",
+
+  // TAMANHO DO FUNDO (só o fundo muda, os produtos continuam do mesmo tamanho):
+  //   "contain"  = imagem INTEIRA, o mais "distante" possível (recomendado)
+  //   "cover"    = preenche a tela toda, mais "perto" (corta as bordas)
+  //   "70%"      = a imagem ocupa 70% da largura da tela (menor = mais distante)
+  //   "auto 80%" = a imagem ocupa 80% da altura da tela
+  // Teste valores e recarregue a página até gostar.
+  fundoTamanho: "cover",
+
+  // Onde a imagem fica na tela: "center", "top", "bottom", "left", "right"
+  // (ou combinações, como "center top")
+  fundoPosicao: "center",
+
+  // Cor que preenche o que a imagem não cobre (laterais). Esta é a cor rosada
+  // da própria imagem, então a emenda quase não aparece.
+  fundoCor: "#a97e76"
 };
 
 /* ---------- 2) PRODUTOS ----------
    COMO ESCOLHER A FOTO DE UM PRODUTO:
-   a) Crie uma pasta chamada "fotos" ao lado deste arquivo.
+   a) Use a pasta "fotos_cacau_show" ao lado deste arquivo.
    b) Coloque lá a imagem do produto (png, jpg, jpeg, webp, gif ou svg).
-   c) Na linha do produto, escreva  foto: "fotos/nome-da-imagem.png"
+   c) Na linha do produto, escreva  foto: "fotos_cacau_show/nome-da-imagem.png"
    Se você não colocar foto (ou a imagem não for encontrada), aparece o emoji.
 
    CADA PRODUTO TEM:
      nome  – nome que aparece na tela
      preco – só o número, com vírgula (ex: "5,50"). Vazio ("") mostra "Consulte o preço"
      obs   – (opcional) linha extra pequena embaixo do preço
-     foto  – (opcional) caminho da imagem, ex: "fotos/tablete20g.png"
+     foto  – (opcional) caminho da imagem, ex: "fotos_cacau_show/tablete20g.png"
      emoji – (opcional) desenho que aparece se não houver foto
+
+   QUEBRA DE LINHA (no nome ou na obs): escreva \n no ponto onde quer quebrar.
+   Exemplo:  nome: "Mousse Monte Bello\n90g"   (aparece em duas linhas)
 
    PARA ADICIONAR: copie uma linha inteira (com a vírgula no final) e altere.
    PARA REMOVER:   apague a linha do produto.
@@ -119,8 +153,8 @@ const PRODUTOS = [
   { nome: "Tablete 100g",  preco: "22,00", obs: "Ao leite, Mezzo, Genduia, branco", 
   foto: "fotos_cacau_show/tablete100g.webp", emoji: "🍫" },
 
-  { nome: "Tablete 100g\n(Do Intense, Pistache)",  preco: "24,50", 
-  foto: "fotos_cacau_show/tablete100g.webp", emoji: "🍫" },
+  { nome: "Tablete 100g\n(Duo Intense, Pistache)",  preco: "24,50", 
+  foto: "fotos_cacau_show/tablete_pistache.webp", emoji: "🍫" },
   
   { nome: "Trufa 13,5g",  preco: "4,00",  obs: "Ao leite, branco, mezzo, pistache, meio amargo 70%, genduia", 
   foto: "fotos_cacau_show/trufa13g.png", emoji: "🍬" },
@@ -129,7 +163,10 @@ const PRODUTOS = [
   foto: "fotos_cacau_show/trufa30g.png", emoji: "🍬" },
 
   { nome: "Trufa 30g artesanal",  preco: "7,00",  obs: "limão e frutas vermelhas, petit gateau, licor de cereija", 
-  foto: "fotos_cacau_show/trufa30g.png", emoji: "🍬" },
+  foto: "fotos_cacau_show/trufa_petit_gateau_30g.webp", emoji: "🍬" },
+
+  { nome: "Trufa zero lactose e açúcar 30g ",  preco: "6,50",  obs: "ao leite, branco, morango", 
+  foto: "fotos_cacau_show/trufa_zero_morango.webp", emoji: "🍬" },
   
   { nome: "Biscoito 100g",  preco: "20,00", obs: "Tradicional c/ chocolate, canela \nHarry Potter", 
   foto: "fotos_cacau_show/biscoito100g.png", emoji: "🍪" },
@@ -183,6 +220,16 @@ $("titulo").textContent    = CONFIG.titulo;
 $("subtitulo").textContent = CONFIG.subtitulo;
 $("chamada").textContent   = CONFIG.chamada;
 $("telefone").textContent  = CONFIG.telefone;
+
+// ---- Fundo da página ----
+document.body.style.backgroundColor = CONFIG.fundoCor;
+if (CONFIG.fundo) {
+  document.body.style.backgroundImage  = 'url("' + CONFIG.fundo + '")';
+  document.body.style.backgroundSize   = CONFIG.fundoTamanho;
+  document.body.style.backgroundPosition = CONFIG.fundoPosicao;
+  // "auto" repete a imagem como azulejo; os outros modos não repetem
+  document.body.style.backgroundRepeat = (CONFIG.fundoTamanho === "auto") ? "repeat" : "no-repeat";
+}
 
 // ---- QR Code do Pix ----
 if (CONFIG.qrPix) {
